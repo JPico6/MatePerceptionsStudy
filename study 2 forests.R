@@ -1,4 +1,5 @@
-########Try random forest on study 2 data
+##########Random forest on study 2 data##########
+############################################################
 
 library(randomForest)
 library(ggplot2)
@@ -11,10 +12,7 @@ dbWomen <- db[which(db$Sex=="Female"),]
 dbRelation <- db[which(db$Status == "In a committed relationship"),]
 dbRelation <- na.omit(dbRelation$Partner_Compared_Overall)
 
-
-
-
-#create interaction terms
+##########create interaction terms##########
 db$Ambitious <- db$ImpOppSex_Ambitious * db$You_Relative_Ambitious
 db$Body <- db$ImpOppSex_Body * db$You_Relative_Body
 db$Face <- db$ImpOppSex_Face * db$You_Relative_Face
@@ -32,7 +30,7 @@ db$Loyal <- db$ImpOppSex_Loyal * db$You_Relative_Loyal
 db$Responsible <- db$ImpOppSex_Responsible * db$You_Relative_Responsible
 db$Sociable <- db$ImpOppSex_Sociable * db$You_Relative_Sociable
 
-#create interactions for partner evaluations 
+##########create interactions for partner evaluations##########
 db$Ambitious <- db$ImpYou_Ambitious * db$Partner_Ambitious
 db$Body <- db$ImpYou_Body * db$Partner_Body
 db$Face <- db$ImpYou_Face * db$Partner_Face
@@ -82,7 +80,7 @@ p
 
 dev.off()
 
-#########For partners
+##########For partners##########
 dbT <- db[,c(72,89:103)]
 dbT <- na.omit(dbT)
 
@@ -113,8 +111,7 @@ p
 
 dev.off()
 
-
-#interaction terms of self-perceptions x what you find important
+##########interaction terms of self-perceptions x what you find important##########
 db$Ambitious <- db$ImpYou_Ambitious * db$You_Relative_Ambitious
 db$Body <- db$ImpYou_Body * db$You_Relative_Body
 db$Face <- db$ImpYou_Face * db$You_Relative_Face
@@ -134,7 +131,6 @@ db$Sociable <- db$ImpYou_Sociable * db$You_Relative_Sociable
 
 dbT <- db[,c(54,73:88)]
 dbT <- na.omit(dbT)
-
 
 set.seed(8345)
 rf <- randomForest(You_Relative_Overall~., data=dbT, ntree=500, mtry = 2, importance=TRUE)
@@ -162,5 +158,3 @@ p <- ggplot(featureImportance, aes(x=reorder(Feature, Importance),
 p
 
 dev.off()
-
-
